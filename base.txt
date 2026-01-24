@@ -1,0 +1,14 @@
+Langage : Python
+Librairies : requests, discord.py
+API : https://www.gamerpower.com/api/giveaways
+
+Contexte :
+Le principe de ce bot est d’annoncer automatiquement tous les nouveaux jeux et DLC gratuits (Steam et Epic Game uniquement) dans des salons Discord personnalisables.
+
+Les salons sont définis via les commandes slash suivantes :
+
+/new_game_channel → pour les jeux gratuits
+
+/new_dlc_channel → pour les DLC gratuits
+
+Le bot récupère les données depuis l’API GamerPower, filtre les offres Steam et Epic Game, et publie une annonce uniquement lorsqu’un nouveau jeu ou DLC gratuit apparaît, sans doublons.
