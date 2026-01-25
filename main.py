@@ -1,101 +1,72 @@
 import requests
-
+import json
+import time
+from datetime import datetime
 
 url = "https://www.gamerpower.com/api/giveaways"
-
+webhook_url = "https://discord.com/api/webhooks/XXXXXXXXXXXX"
 
 params_steam_game = {
     "platform": "steam",
     "type": "game"
 }
 
-params_epicgame_game = {
-    "platform": "epic-games-store",
-    "type": "game"
-}
+print("Bot lancé...")
 
-params_steam_DLC = {
-    "platform": "steam",
-    "type": "loot"
-}
+while True:
+    try:
+        # ======================
+        # STEAM — GAME
+        # ======================
+        r = requests.get(url, params=params_steam_game, timeout=5)
+        r.raise_for_status()
+        data = r.json()
 
-params_epicgame_DLC = {
-    "platform": "epic-games-store",
-    "type": "loot"
-}
+        with open("./data/steam_game.json", "w", encoding="utf-8") as fichier:
+            json.dump(data, fichier, indent=4, ensure_ascii=False)
 
+        if data and isinstance(data, list):
+            d = data[0]
 
+            title = d.get("title")
+            open_giveaway = d.get("open_giveaway")
+            image = d.get("image")
+            worth = d.get("worth")
+            description = d.get("description")
+            end_date = d.get("end_date")
 
-# ======================
-# STEAM — GAME
-# ======================
+            payload = {
+                "embeds": [
+                    {
+                        "title": title,
+                        "description": (
+                            f"{description}\n\n"
+                            f"~~{worth}~~ **Gratuit jusqu’au {end_date}**\n"
+                            f"🔗 [Ouvrir dans la boutique]({open_giveaway})"
+                        ),
+                        "color": 0x7F00FF,
+                        "footer": {
+                            "text": "by choukettas"
+                        },
+                        "timestamp": datetime.utcnow().isoformat(),
+                        "image": {
+                            "url": image
+                        },
+                        "thumbnail": {
+                            "url": "https://i.postimg.cc/hjrPkWbj/S2Qw-Qtm.png"
+                        }
+                    }
+                ]
+            }
 
-r = requests.get(url, params=params_steam_game, timeout=5)
-data = r.json()
+            requests.post(webhook_url, json=payload)
+            print(f"[OK] {title} envoyé")
 
-if data and isinstance(data, list):
-    print("title :", data[0].get("title"))
-    print("worth :", data[0].get("worth"))
-    print("image :", data[0].get("image"))
-    print("type :", data[0].get("type"))
-    print("published_date :", data[0].get("published_date"))
-    print("end_date :", data[0].get("end_date"))
-else:
-    print("Pas de données valides.")
+        else:
+            print("Aucune donnée valide")
 
+    except Exception as e:
+        print("Erreur :", e)
 
-
-# ======================
-# EPIC GAMES — GAME
-# ======================
-
-r = requests.get(url, params=params_epicgame_game, timeout=5)
-data = r.json()
-
-if data and isinstance(data, list):
-    print("title :", data[0].get("title"))
-    print("worth :", data[0].get("worth"))
-    print("image :", data[0].get("image"))
-    print("type :", data[0].get("type"))
-    print("published_date :", data[0].get("published_date"))
-    print("end_date :", data[0].get("end_date"))
-else:
-    print("Pas de données valides.")
-
-
-
-# ======================
-# STEAM — DLC
-# ======================
-
-r = requests.get(url, params=params_steam_DLC, timeout=5)
-data = r.json()
-
-if data and isinstance(data, list):
-    print("title :", data[0].get("title"))
-    print("worth :", data[0].get("worth"))
-    print("image :", data[0].get("image"))
-    print("type :", data[0].get("type"))
-    print("published_date :", data[0].get("published_date"))
-    print("end_date :", data[0].get("end_date"))
-else:
-    print("Pas de données valides.")
-
-
-
-# ======================
-# EPIC GAMES — DLC
-# ======================
-
-r = requests.get(url, params=params_epicgame_DLC, timeout=5)
-data = r.json()
-
-if data and isinstance(data, list):
-    print("title :", data[0].get("title"))
-    print("worth :", data[0].get("worth"))
-    print("image :", data[0].get("image"))
-    print("type :", data[0].get("type"))
-    print("published_date :", data[0].get("published_date"))
-    print("end_date :", data[0].get("end_date"))
-else:
-    print("Pas de données valides.")
+    # ⏳ pause 30 minutes
+    time.sleep(1800)
