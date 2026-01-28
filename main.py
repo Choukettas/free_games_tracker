@@ -1,40 +1,28 @@
 import requests
+from colorama import Fore, Back, Style
 import json
 import time
 from datetime import datetime
 import os
 
 url = "https://www.gamerpower.com/api/giveaways"
-webhook_url_game = "Your token webhook"
-webhook_url_DLC = "Your token webhook"
-ping_target = "Role of ping"
+webhook_url_game_pc = "https://discord.com/api/webhooks/1465076063179640890/ztY3UmQNOaCZENFCf24s1XND_AgL_gBiDcpqHCluJWS1BYVlf0OdQePVCzPbaNQ8L34n"
+webhook_url_game_ps = "https://discord.com/api/webhooks/1466183672356147383/IhT3oiVouMOoxoBlTaD1tzR0H-ozeOalHIrtIcKBIXSkziB2jyzzWZ82LK0Ht7hVj0Ux"
+webhook_url_game_xbox = "https://discord.com/api/webhooks/1466183861942751272/nH1OpAd5lLZ2JEt22Z9UO84Wkrtuj8_QMDx0T25C4H1B3J_2P04epwQYVBYD90t_FzjL"
+webhook_url_game_switch = "https://discord.com/api/webhooks/1466183986593398969/nR0aXdd7aY2LANAgGz9qImCGF5Y5Bb75rALlOixclJ_dE0UzWIJYw0kFNSgW26b0e6DZ"
+webhook_url_DLC = "https://discord.com/api/webhooks/1465076069043536074/suJJwGiOId5ZdZpwDUgZ6JzGiuZ4j-u_PnRD9j5zBThUjRKu7zrl_QYUJsYlYOX9Q96B"
+ping_target = "<@&1463454577302175878>"
 
-params_steam_game = {
-    "platform": "steam",
-    "type": "game"
-}
+params_steam_game = {"platform": "steam","type": "game"}
+params_epicgame_game = {"platform": "epic-games-store","type": "game"}
+params_steam_DLC = {"platform": "steam","type": "loot"}
+params_epicgame_DLC = {"platform": "epic-games-store","type": "loot"}
+params_gog_game = {"platform": "gog","type": "game"}
+param_playstation = {"platform": "ps5",}
+param_xbox = {"platform": "xbox-series-xs",}
+param_switch = {"platform": "switch",}
 
-params_epicgame_game = {
-    "platform": "epic-games-store",
-    "type": "game"
-}
-
-params_steam_DLC = {
-    "platform": "steam",
-    "type": "loot"
-}
-
-params_epicgame_DLC = {
-    "platform": "epic-games-store",
-    "type": "loot"
-}
-
-params_gog_game = {
-    "platform": "gog",
-    "type": "game"
-}
-
-print("Bot lancé...")
+print(Back.GREEN+"Bot lancé...")
 
 while True:
     try:
@@ -52,7 +40,7 @@ while True:
         data = r.json()
 
         if not data or not isinstance(data, list):
-            print("⚠️ Données invalides")
+            print(Fore.RED +"Données invalides")
             time.sleep(300)
             continue
 
@@ -61,10 +49,10 @@ while True:
 
 
         if old_id == current_id:
-            print("⏩ Déjà envoyé, on ignore")
+            print(Fore.YELLOW +"Déjà envoyé, on ignore")
 
         else:
-            print("🆕 Nouveau jeu détecté")
+            print(Back.GREEN + "Nouveau jeu détecté")
 
             payload = {
                 "content": ping_target,
@@ -85,7 +73,7 @@ while True:
                 ]
             }
 
-            requests.post(webhook_url_game, json=payload)
+            requests.post(webhook_url_game_pc, json=payload)
             print(f"[OK] {d.get('title')} envoyé")
 
             with open("./data/steam_game.json", "w", encoding="utf-8") as f:
@@ -109,7 +97,7 @@ while True:
         data = r.json()
 
         if not data or not isinstance(data, list):
-            print("⚠️ Données invalides")
+            print(Fore.RED +"Données invalides")
             time.sleep(300)
             continue
 
@@ -118,10 +106,10 @@ while True:
 
 
         if old_id == current_id:
-            print("⏩ Déjà envoyé, on ignore")
+            print(Fore.YELLOW +"Déjà envoyé, on ignore")
 
         else:
-            print("🆕 Nouveau jeu détecté")
+            print(Back.GREEN + "Nouveau jeu détecté")
 
             payload = {
                 "content": ping_target,
@@ -142,7 +130,7 @@ while True:
                 ]
             }
 
-            requests.post(webhook_url_game, json=payload)
+            requests.post(webhook_url_game_pc, json=payload)
             print(f"[OK] {d.get('title')} envoyé")
 
             with open("./data/epicgame_game.json", "w", encoding="utf-8") as f:
@@ -166,7 +154,7 @@ while True:
         data = r.json()
 
         if not data or not isinstance(data, list):
-            print("⚠️ Données invalides")
+            print(Fore.RED +"Données invalides")
             time.sleep(300)
             continue
 
@@ -175,10 +163,10 @@ while True:
 
 
         if old_id == current_id:
-            print("⏩ Déjà envoyé, on ignore")
+            print(Fore.YELLOW +"Déjà envoyé, on ignore")
 
         else:
-            print("🆕 Nouveau DCL détecté")
+            print(Back.GREEN +"Nouveau DCL détecté")
 
             payload = {
                 "content": ping_target,
@@ -223,7 +211,7 @@ while True:
         data = r.json()
 
         if not data or not isinstance(data, list):
-            print("⚠️ Données invalides")
+            print(Fore.RED +"Données invalides")
             time.sleep(300)
             continue
 
@@ -232,10 +220,10 @@ while True:
 
 
         if old_id == current_id:
-            print("⏩ Déjà envoyé, on ignore")
+            print(Fore.YELLOW +"Déjà envoyé, on ignore")
 
         else:
-            print("🆕 Nouveau DLC détecté")
+            print(Back.GREEN +"Nouveau DLC détecté")
 
             payload = {
                 "content": ping_target,
@@ -280,7 +268,7 @@ while True:
         data = r.json()
 
         if not data or not isinstance(data, list):
-            print("⚠️ Données invalides")
+            print(Fore.RED +"Données invalides")
             time.sleep(300)
             continue
 
@@ -289,10 +277,10 @@ while True:
 
 
         if old_id == current_id:
-            print("⏩ Déjà envoyé, on ignore")
+            print(Fore.YELLOW +"Déjà envoyé, on ignore")
 
         else:
-            print("🆕 Nouveau game détecté")
+            print(Back.GREEN + "Nouveau jeu détecté")
 
             payload = {
                 "content": ping_target,
@@ -313,10 +301,181 @@ while True:
                 ]
             }
 
-            requests.post(webhook_url_game,json=payload)
+            requests.post(webhook_url_game_pc,json=payload)
             print(f"[OK] {d.get('title')} envoyé")
 
             with open("./data/gog_game.json", "w", encoding="utf-8") as f:
+                json.dump(data, f, indent=4, ensure_ascii=False)
+
+    except Exception as e:
+        print("Erreur :", e)
+
+    try:
+
+        old_id = None
+        if os.path.exists("./data/playstation.json"):
+            with open("./data/playstation.json", "r", encoding="utf-8") as f:
+                old_data = json.load(f)
+                if isinstance(old_data, list) and old_data:
+                    old_id = old_data[0].get("id")
+
+        
+        r = requests.get(url, params=param_playstation, timeout=5)
+        r.raise_for_status()
+        data = r.json()
+
+        if not data or not isinstance(data, list):
+            print(Fore.RED +"Données invalides")
+            time.sleep(300)
+            continue
+
+        d = data[0]
+        current_id = d.get("id")
+
+
+        if old_id == current_id:
+            print(Fore.YELLOW +"Déjà envoyé, on ignore")
+
+        else:
+            print(Back.GREEN + "Nouveau jeu détecté")
+
+            payload = {
+                "content": ping_target,
+                "embeds": [
+                    {
+                        "thumbnail": { "url": "https://i.postimg.cc/dtx7Pfmh/logotype-playstation.png" },
+                        "title": d.get("title"),
+                        "description": (
+                            f"{d.get('description')}\n\n"
+                            f"~~{d.get('worth')}~~ **Gratuit jusqu’au {d.get('end_date')}**\n"
+                            f"🔗 [Ouvrir dans la boutique]({d.get('open_giveaway')})"
+                        ),
+                        "color": 0x7F00FF,
+                        "footer": { "text": "by choukettas" },
+                        "timestamp": datetime.utcnow().isoformat(),
+                        "image": { "url": d.get("image") }
+                    }
+                ]
+            }
+
+            requests.post(webhook_url_game_ps, json=payload)
+            print(f"[OK] {d.get('title')} envoyé")
+
+            with open("./data/playstation.json", "w", encoding="utf-8") as f:
+                json.dump(data, f, indent=4, ensure_ascii=False)
+
+    except Exception as e:
+        print("Erreur :", e)
+
+    try:
+
+        old_id = None
+        if os.path.exists("./data/xbox.json"):
+            with open("./data/xbox.json", "r", encoding="utf-8") as f:
+                old_data = json.load(f)
+                if isinstance(old_data, list) and old_data:
+                    old_id = old_data[0].get("id")
+
+        
+        r = requests.get(url, params=param_xbox, timeout=5)
+        r.raise_for_status()
+        data = r.json()
+
+        if not data or not isinstance(data, list):
+            print(Fore.RED +"Données invalides")
+            time.sleep(300)
+            continue
+
+        d = data[0]
+        current_id = d.get("id")
+
+
+        if old_id == current_id:
+            print(Fore.YELLOW +"Déjà envoyé, on ignore")
+
+        else:
+            print(Back.GREEN + "Nouveau jeu détecté")
+
+            payload = {
+                "content": ping_target,
+                "embeds": [
+                    {
+                        "thumbnail": { "url": "https://i.postimg.cc/9Fn45kt4/logo-xbox.png" },
+                        "title": d.get("title"),
+                        "description": (
+                            f"{d.get('description')}\n\n"
+                            f"~~{d.get('worth')}~~ **Gratuit jusqu’au {d.get('end_date')}**\n"
+                            f"🔗 [Ouvrir dans la boutique]({d.get('open_giveaway')})"
+                        ),
+                        "color": 0x7F00FF,
+                        "footer": { "text": "by choukettas" },
+                        "timestamp": datetime.utcnow().isoformat(),
+                        "image": { "url": d.get("image") }
+                    }
+                ]
+            }
+
+            requests.post(webhook_url_game_xbox, json=payload)
+            print(f"[OK] {d.get('title')} envoyé")
+
+            with open("./data/xbox.json", "w", encoding="utf-8") as f:
+                json.dump(data, f, indent=4, ensure_ascii=False)
+
+    except Exception as e:
+        print("Erreur :", e)
+
+    try:
+
+        old_id = None
+        if os.path.exists("./data/switch.json"):
+            with open("./data/switch.json", "r", encoding="utf-8") as f:
+                old_data = json.load(f)
+                if isinstance(old_data, list) and old_data:
+                    old_id = old_data[0].get("id")
+
+        
+        r = requests.get(url, params=param_switch, timeout=5)
+        r.raise_for_status()
+        data = r.json()
+
+        if not data or not isinstance(data, list):
+            print(Fore.RED +"Données invalides")
+            time.sleep(300)
+            continue
+
+        d = data[0]
+        current_id = d.get("id")
+
+
+        if old_id == current_id:
+            print(Fore.YELLOW +"Déjà envoyé, on ignore")
+
+        else:
+            print(Back.GREEN + "Nouveau jeu détecté")
+
+            payload = {
+                "content": ping_target,
+                "embeds": [
+                    {
+                        "thumbnail": { "url": "https://i.postimg.cc/15jghdc4/nintendo-switch.png" },
+                        "title": d.get("title"),
+                        "description": (
+                            f"{d.get('description')}\n\n"
+                            f"~~{d.get('worth')}~~ **Gratuit jusqu’au {d.get('end_date')}**\n"
+                            f"🔗 [Ouvrir dans la boutique]({d.get('open_giveaway')})"
+                        ),
+                        "color": 0x7F00FF,
+                        "footer": { "text": "by choukettas" },
+                        "timestamp": datetime.utcnow().isoformat(),
+                        "image": { "url": d.get("image") }
+                    }
+                ]
+            }
+
+            requests.post(webhook_url_game_switch, json=payload)
+            print(f"[OK] {d.get('title')} envoyé")
+
+            with open("./data/switch.json", "w", encoding="utf-8") as f:
                 json.dump(data, f, indent=4, ensure_ascii=False)
 
     except Exception as e:
