@@ -27,7 +27,6 @@ The bot regularly checks for new giveaways and only sends those that have not be
 ## 🔧 Project Structure
 
 free_games_tracker/
-│
 ├─ main.py # Main script
 ├─ data/ # Giveaway JSON files
 │ ├─ steam_game.json
